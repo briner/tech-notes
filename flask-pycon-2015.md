@@ -189,13 +189,14 @@ from wtforms.fields import RadioField, SubmitField
 # secret to avoid the Cross-Site Request Forgery attack
 app.config['SECRET_KEY'] = 'secret!'
 
-...
+…
+
 # the class that defined a form
 class YesNoQuestionForm(Form):
     answer = RadioField('Your answer', choices=[('yes', 'Yes'), ('no', 'No')])
     submit = SubmitField('Submit')
 
-...
+…
 
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
