@@ -126,8 +126,8 @@ we have a reference to an flask's route.
 * ```git checkout v0.6```
 
 When looking at the snippet, you will see that the decorator ```app.route``` has
-a new arguments ```methods```. The "post" method is used when the user submit the
-form, the "get" will render the forms.
+a new arguments ```methods```. The *post* method is used when the user submit the
+form, the *get* will render the forms.
 * snippet on the app
 ```python
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
@@ -232,4 +232,5 @@ def question(id):
 * ```git checkout v0.9```
 
 The logic of the web application should reside in an other places. This is not
-an web applicatio task. In this case, we will put in an other module
+an web applicatio task. In this case, we will put in an other module. The module
+is named *guessed.py*.
