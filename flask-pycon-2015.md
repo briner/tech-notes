@@ -208,3 +208,20 @@ def question(id):
             return redirect(url_for('question', id=id))
     return render_template('question.html', question=questions[id], form=form)
 ```
+
+ * question.html snippet
+ ```html
+<h1>Guess the Language!</h1>
+<p>{{ question }}</p>
+<form method="POST">
+    <!-- form.hidden_tag is hidden field used by the app.secret to avoid CSRF -->
+    {{ form.hidden_tag() }}
+    <p>
+    {% for option in form.answer %}
+        {{ option }} {{ option.label }}<br>
+    {% endfor %}
+    </p>
+    {{ form.submit }}
+</form>
+<p>Click <a href="{{ url_for('index') }}">here</a> to end this game.</p>
+```
