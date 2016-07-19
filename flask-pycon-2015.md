@@ -121,7 +121,7 @@ we have a reference to an flask's route.
 </html>
 ```
 
-# Web Forms(1h13m10s)
+# Web Forms: add a form to the application
 * video start @ [1h13m10s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h13m10s)
 * ```git checkout v0.6```
 
@@ -150,7 +150,7 @@ def question(id):
         </form>
 ```
 
-# post-redirect-get pattern
+# Web Forms: post-redirect-get pattern
 * video start @ [1h25m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h25m30s)
 * ```git checkout v0.7```
 
@@ -169,4 +169,41 @@ def question(id):
             # post-redirect get-pattern
             return redirect(url_for('question', id=id))
     return render_template('question.html', question=questions[id])
+```
+
+# Web Forms: Using Flask-WTF and WTForms
+* video start @ [1h28m48s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h28m48s)
+* ```git checkout v0.8```
+
+Do not trust what the user provides. Check what the user is boring and prone to
+error. For that particular case use. It also provide a way to get protected against
+the Cross-Site Request Forgery
+([CSRF](https://fr.wikipedia.org/wiki/Cross-Site_Request_Forgery))
+
+* app snippet
+```python
+from flask import Flask, render_template, redirect, url_for
+from flask_wtf import Form
+from wtforms.fields import RadioField, SubmitField
+
+# secret to avoid the Cross-Site Request Forgery attack
+app.config['SECRET_KEY'] = 'secret!'
+
+...
+# the class that defined a form
+class YesNoQuestionForm(Form):
+    answer = RadioField('Your answer', choices=[('yes', 'Yes'), ('no', 'No')])
+    submit = SubmitField('Submit')
+
+...
+
+@app.route('/question/<int:id>', methods=['GET', 'POST'])
+def question(id):
+    form = YesNoQuestionForm()
+    if form.validate_on_submit():
+        if form.answer.data == 'yes':
+            return redirect(url_for('question', id=id+1))
+        else:
+            return redirect(url_for('question', id=id))
+    return render_template('question.html', question=questions[id], form=form)
 ```
