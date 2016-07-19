@@ -150,7 +150,7 @@ def question(id):
         </form>
 ```
 
-# post redirect-get pattern
+# post-redirect-get pattern
 * video start @ [1h25m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h25m30s)
 * ```git checkout v0.7```
 
@@ -159,13 +159,13 @@ refreshing a page. That warning occur in the case you do a refresh when the last
 action done was a post. In that case the browser is worried that the post will occur
 twice. To avoid this, finish each post command with a redirect to a get.
 
-* app snippet, by adding the redirect-get-pattern line following
+* app snippet, by adding the post-redirect-get pattern line following
 ```python
 def question(id):
     if request.method == 'POST':
         if request.form['answer'] == 'yes':
             return redirect(url_for('question', id=id+1))
         else:
-            return redirect(url_for('question', id=id)) # redirect-get-pattern
+            return redirect(url_for('question', id=id)) # post-redirect get-pattern
     return render_template('question.html', question=questions[id])
 ```
