@@ -98,3 +98,22 @@ def guess(id):
 ```
 
 * miguel does create a ```templates``` dir in the main directory
+
+# Create links between pages (58m35s)
+* ```git checkout v0.5```
+
+* do use ```url_for``` as in the templates index.html (or question.html). That way we have a reference to an flask's route.
+```html
+<html>
+    <head>
+        <title>Guess the Language!</title>
+    </head>
+    <body>
+        <h1>Guess the Language</h1>
+        <p>Think of your favorite programming language. I'm going to try to guess it!</p>
+        <p>Ready? Click <a href="{{ url_for('question', id=0) }}">here</a> to begin!</p>
+    </body>
+</html>
+```
+
+#
