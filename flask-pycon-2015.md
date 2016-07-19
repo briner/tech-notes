@@ -1,4 +1,4 @@
-from the [video on flask at pycon 2015]( https://www.youtube.com/watch?v=DIcpEg77gdE)
+from the [video on flask at pycon 2015](https://www.youtube.com/watch?v=DIcpEg77gdE)
 
 
 # setup the project
@@ -28,13 +28,14 @@ source venv/bin/activate
  ```
 
 # hello world
-* first launch worked with parameter host="0.0.0.0" to bind to any adressesk
+* first launch worked with parameter host="0.0.0.0" to bind to any adresses
 ```python
 app.run(debug=True, host='0.0.0.0')
 ```
 
-# add dynamic behaviour (37m)
-* ``` checkout v0.2```
+# add dynamic behaviour
+* video start @ [@37m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=37m)
+* ```git checkout v0.2```
 
 * snippet allow to pass parameter in the url
 ```python
@@ -44,7 +45,8 @@ def guess(id):
             '<p>My guess: {0}</p>').format(guesses[id])
 ```
 
-# make application accessible to other computer (44m28s)
+# make application accessible to other computer
+* video start @ [44m28s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=44m28s)
 * ```git checkout v0.3```
 
 * snippet to change host and port
@@ -52,7 +54,8 @@ def guess(id):
 app.run(host='0.0.0.0', port=5000, debug=True)
 ```
 
-# templates with jinja (50m40s)
+# templates with jinja
+* video start @ [@50m40s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=50m40s)
 * ```git checkout v0.4```
 
 * without argument
@@ -99,7 +102,8 @@ def guess(id):
 
 * miguel does create a ```templates``` dir in the main directory
 
-# Create links between pages (58m35s)
+# Create links between pages with "url_for"
+* video start @ [58m35s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=58m35s)
 * ```git checkout v0.5```
 
 * do use ```url_for``` as in the templates index.html (or question.html). That way we have a reference to an flask's route.
@@ -116,4 +120,6 @@ def guess(id):
 </html>
 ```
 
-#
+# Web Forms(1h13m10s)
+* video start @ [1h13m10s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h13m10s)
+* ```git checkout v0.6```
