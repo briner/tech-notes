@@ -201,6 +201,7 @@ class YesNoQuestionForm(Form):
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
     form = YesNoQuestionForm()
+    # validate_on_submit return True if data is submitted and if the data is valid
     if form.validate_on_submit():
         if form.answer.data == 'yes':
             return redirect(url_for('question', id=id+1))
@@ -225,3 +226,10 @@ def question(id):
 </form>
 <p>Click <a href="{{ url_for('index') }}">here</a> to end this game.</p>
 ```
+
+# Game Logic:
+* video start @ [1h47m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h47m)
+* ```git checkout v0.9```
+
+The logic of the web application should reside in an other places. This is not
+an web applicatio task. In this case, we will put in an other module
