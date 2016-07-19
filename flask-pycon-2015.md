@@ -106,7 +106,8 @@ def guess(id):
 * video start @ [58m35s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=58m35s)
 * ```git checkout v0.5```
 
-* do use ```url_for``` as in the templates index.html (or question.html). That way we have a reference to an flask's route.
+* do use ```url_for``` as in the templates index.html (or question.html). That way
+we have a reference to an flask's route.
 ```html
 <html>
     <head>
@@ -123,3 +124,48 @@ def guess(id):
 # Web Forms(1h13m10s)
 * video start @ [1h13m10s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h13m10s)
 * ```git checkout v0.6```
+
+When looking at the snippet, you will see that the decorator ```app.route``` has
+a new arguments ```methods```. The "post" method is used when the user submit the
+form, the "get" will render the forms.
+* snippet on the app
+```python
+@app.route('/question/<int:id>', methods=['GET', 'POST'])
+def question(id):
+    if request.method == 'POST':
+        if request.form['answer'] == 'yes':
+            return redirect(url_for('question', id=id+1))
+    return render_template('question.html', question=questions[id])
+```
+* snippet of question.html
+```html
+        <h1>Guess the Language!</h1>
+        <p>{{ question }}</p>
+        <form method="POST">
+            <p>
+                <input type="radio" name="answer" value="yes"> Yes<br>
+                <input type="radio" name="answer" value="no"> No<br>
+            </p>
+            <input type="submit" value="Submit">
+        </form>
+```
+
+# post redirect-get pattern
+* video start @ [1h25m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h25m30s)
+* ```git checkout v0.7```
+
+Each post request must finished by a get request to avoid a display warning when
+refreshing a page. That warning occur in the case you do a refresh when the last
+action done was a post. In that case the browser is worried that the post will occur
+twice. To avoid this, finish each post command with a redirect to a get.
+
+* app snippet, by adding the redirect-get-pattern line following
+```python
+def question(id):
+    if request.method == 'POST':
+        if request.form['answer'] == 'yes':
+            return redirect(url_for('question', id=id+1))
+        else:
+            return redirect(url_for('question', id=id)) # redirect-get-pattern
+    return render_template('question.html', question=questions[id])
+```
