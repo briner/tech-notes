@@ -85,7 +85,7 @@ def guess(id):
     return render_template('guess.html', guess=guesses[id])
 ```
  * guess.html
- ```html
+```html
  <html>
     <head>
         <title>Guess the Language!</title>
