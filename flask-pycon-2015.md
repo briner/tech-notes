@@ -238,6 +238,14 @@ def question(id):
 <p>Click <a href="{{ url_for('index') }}">here</a> to end this game.</p>
 ```
 
+For information at video start @ [2h12m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h12m30s)
+we can modify the option on how a widget is displayed as they are in question.html of v0.11
+```html
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.language.label }} {{ form.language(class="required", size=50) }} {% for error in form.language.errors %}[{{ error }}]{% endfor %}</p>
+```
+
 # Game Logic: add a module with the logic game
 * video start @ [1h47m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h47m)
 * ```git checkout v0.9```
@@ -251,3 +259,58 @@ Apart from this there is nothing special.
 # Game Logic: implement the end of the game
 * video start @ [1h58m55s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h58m55s)
 * ```git checkout v0.10```
+
+# Game Logic: implement the end of the game
+* video start @ [1h58m55s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h58m55s)
+* ```git checkout v0.10```
+
+# Game Logic: Validate forms
+* video start @ [2h9m7s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h9m7s)
+* ```git checkout v0.11```
+
+wtforms provides a large array of validators.
+
+* app snnippet
+```python
+from wtforms.validators import Required
+#
+class LearnForm(Form):
+    language = StringField('What language did you pick?',
+                           validators=[Required()])
+    question = StringField('What is a question that differentiates your '
+                           'language from mine?', validators=[Required()])
+    answer = RadioField('What is the answer for your language?',
+                        choices=[('yes', 'Yes'), ('no', 'No')])
+    submit = SubmitField('Submit')
+```
+* even if we validate in the client, the server must validate it (video start @ [2h14m42s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h14m42s))
+
+* validate_forms as said before do (video start @ [2h15m45s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h15m45s)):
+ * check that there is data
+ * check the data follows the validators attached to them :
+```python
+class LearnForm(Form):
+    language = StringField('What language did you pick?',
+                           validators=[Required()])
+```
+
+* extend the template to show errors  (video start @ [2h17m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h17m)):
+```html
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.language.label }} {{ form.language() }} {% for error in form.language.errors %}[{{ error }}]{% endfor %}</p>
+        <p>{{ form.question.label }} {{ form.question() }} {% for error in form.question.errors %}[{{ error }}]{% endfor %}</p>
+        <p>What is the answer to this question for your language?</p>
+        <p>
+        <!-- extend the template errors here --->
+        {% for option in form.answer %}
+            {{ option }} {{ option.label }}<br>
+        {% endfor %}
+        {% for error in form.answer.errors %}[{{ error }}]{% endfor %}
+        </p>
+        {{ form.submit }}
+```
+
+# User 
+* video start @ [2h23m40s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h23m40s)
+* ```git checkout v0.12```
