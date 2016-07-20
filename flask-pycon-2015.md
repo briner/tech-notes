@@ -1,4 +1,7 @@
-from the [video on flask at pycon 2015](https://www.youtube.com/watch?v=DIcpEg77gdE)
+[TOC]
+
+
+These are my notes of the [video on flask at pycon 2015](https://www.youtube.com/watch?v=DIcpEg77gdE) presented by Miguel GRINBERG
 
 
 # setup the project
@@ -10,8 +13,9 @@ apt install python3-virtualenv python3-dev
 ```
 * create the virtualenv inside the project (13m40s)
 ```bash
-mkdir my_project
-cd my_project
+git git clone https://github.com/miguelgrinberg/flask-pycon2015
+mkdir flask-pycon2015
+cd flask-pycon2015
 python3 -m venv venv
 ```
 * activate it
@@ -128,6 +132,7 @@ we have a reference to an flask's route.
 When looking at the snippet, you will see that the decorator ```app.route``` has
 a new arguments ```methods```. The *post* method is used when the user submit the
 form, the *get* will render the forms.
+
 * snippet on the app
 ```python
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
@@ -137,6 +142,7 @@ def question(id):
             return redirect(url_for('question', id=id+1))
     return render_template('question.html', question=questions[id])
 ```
+
 * snippet of question.html
 ```html
         <h1>Guess the Language!</h1>
@@ -153,6 +159,11 @@ def question(id):
 # Web Forms: post-redirect-get pattern
 * video start @ [1h25m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h25m30s)
 * ```git checkout v0.7```
+* requirement
+```bash
+# not really sure
+pip install wtforms
+```
 
 Each post request must finished by a get request to avoid a display warning when
 refreshing a page. That warning occur in the case you do a refresh when the last
@@ -185,19 +196,19 @@ the Cross-Site Request Forgery
 from flask import Flask, render_template, redirect, url_for
 from flask_wtf import Form
 from wtforms.fields import RadioField, SubmitField
-
+#
 # secret to avoid the Cross-Site Request Forgery attack
 app.config['SECRET_KEY'] = 'secret!'
-
-…
-
+#
+# ...
+#
 # the class that defined a form
 class YesNoQuestionForm(Form):
     answer = RadioField('Your answer', choices=[('yes', 'Yes'), ('no', 'No')])
     submit = SubmitField('Submit')
-
-…
-
+#
+# ...
+#
 @app.route('/question/<int:id>', methods=['GET', 'POST'])
 def question(id):
     form = YesNoQuestionForm()
@@ -227,10 +238,16 @@ def question(id):
 <p>Click <a href="{{ url_for('index') }}">here</a> to end this game.</p>
 ```
 
-# Game Logic:
+# Game Logic: add a module with the logic game
 * video start @ [1h47m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h47m)
 * ```git checkout v0.9```
 
 The logic of the web application should reside in an other places. This is not
 an web applicatio task. In this case, we will put in an other module. The module
 is named *guessed.py*.
+
+Apart from this there is nothing special.
+
+# Game Logic: implement the end of the game
+* video start @ [1h58m55s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=1h58m55s)
+* ```git checkout v0.10```
