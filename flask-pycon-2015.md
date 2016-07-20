@@ -59,7 +59,7 @@ app.run(host='0.0.0.0', port=5000, debug=True)
 ```
 
 # templates with jinja
-* video start @ [@50m40s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=50m40s)
+* video start @ [50m40s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=50m40s)
 * ```git checkout v0.4```
 
 * without argument
@@ -238,7 +238,7 @@ def question(id):
 <p>Click <a href="{{ url_for('index') }}">here</a> to end this game.</p>
 ```
 
-For information at video start @ [2h12m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h12m30s)
+For information ([2h12m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h12m30s))
 we can modify the option on how a widget is displayed as they are in question.html of v0.11
 ```html
     <form method="POST">
@@ -283,9 +283,9 @@ class LearnForm(Form):
                         choices=[('yes', 'Yes'), ('no', 'No')])
     submit = SubmitField('Submit')
 ```
-* even if we validate in the client, the server must validate it (video start @ [2h14m42s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h14m42s))
+* [[2h14m42s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h14m42s)] Even if we validate in the client, the server must validate it.
 
-* validate_forms as said before do (video start @ [2h15m45s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h15m45s)):
+* [[2h15m45s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h15m45s)] Validate_forms as said before do:
  * check that there is data
  * check the data follows the validators attached to them :
 ```python
@@ -294,7 +294,7 @@ class LearnForm(Form):
                            validators=[Required()])
 ```
 
-* extend the template to show errors  (video start @ [2h17m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h17m)):
+*  [[2h17m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h17m)] Extend the template to show errors:
 ```html
     <form method="POST">
         {{ form.hidden_tag() }}
@@ -311,6 +311,23 @@ class LearnForm(Form):
         {{ form.submit }}
 ```
 
-# User 
+# User Sessions: Store game state in the user session
 * video start @ [2h23m40s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h23m40s)
 * ```git checkout v0.12```
+
+flask create a dictionary per user which will allow to keep a session per user.
+This will allow to keep for e.g. the state. In this section we will keep. The
+cookie will be cryptographly signed to prevent it to be tampered.
+
+* app snippet:
+```python
+# import session
+from flask import Flask, render_template, redirect, url_for, session
+```
+
+[[2h28m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h28m30s)] A *flask-kvsession* extension allow to store the session information into a file or a
+database and then the cookie will only store the *id* of record in the DB.
+
+# Error Handling:
+* video start @ [2h35m20s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h35m20s)
+* ```git checkout v0.13```
