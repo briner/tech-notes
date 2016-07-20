@@ -22,7 +22,9 @@ python3 -m venv venv
 ```
 source venv/bin/activate
 ```
- * then you'll see on the prompt
+ * then you'll see on the prompt * debug=True will
+  * show you the super awesome verkzeug debuger running within your web pages.
+
  ```bash
  (venv) root@uniroot@unixpriv3
  ```
@@ -36,6 +38,12 @@ source venv/bin/activate
 ```python
 app.run(debug=True, host='0.0.0.0')
 ```
+
+ * ```debug=True``` will :
+   * show you the super awesome verkzeug debuger running within your web pages
+   * restart the web server each time you modify your code (so you do not need to
+      do this manually)
+
 
 # add dynamic behaviour
 * video start @ [@37m](https://www.youtube.com/watch?v=DIcpEg77gdE#t=37m)
@@ -331,3 +339,67 @@ database and then the cookie will only store the *id* of record in the DB.
 # Error Handling:
 * video start @ [2h35m20s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h35m20s)
 * ```git checkout v0.13```
+
+How can we break what we've done.
+ * go to an url that does not exists ```http://localhost:5000/not_a_good_url```
+ * break the way that the engine works as we implement. For e.g. what if we put a
+ new language *python* when we previously say that it was not *python*. The
+ guess.py engine will ```raise GuessError()```. We have to manage such situation.
+
+[[2h38m10s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h38m10s)] Debugger:
+ Werkzeug show an enhanced stack trace error of python within the web browser,
+ where you can:
+ * Look the stack trace.
+ * Look for each element of the stack the source.
+ * Use a python console on that element to run/test python code.
+
+[[2h42m25s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h42m25s)] Internal
+Server Code (error code: 500). This page is not served by our application. So,
+the look and the message error are a bit very short.
+
+[[2h43m30s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h43m30s)] Let's treat
+this error page within flask.
+
+ * with the app snippet, using the``` GuessError``` class or the *error code*.
+```python
+@app.errorhandler(GuessError)
+@app.errorhandler(404)
+def runtime_error(e):
+    return render_template('error.html', error=str(e))
+```
+ * and the error.html snippet
+ ```html
+<h1>Guess the Language!</h1>
+<p>Error: {{ error }}</p>
+<p>Click <a href="{{ url_for('index') }}">here</a> to begin a new game.</p>
+```
+
+# What's next
+* video start @ [2h49m45s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=2h49m45s)
+
+Go to the [Miguel GRINBERG blog](http://blog.miguelgrinberg.com/) to looks of the topic that should be investigated.
+
+* Databases
+* Authentication
+ * [flask-login](https://flask-login.readthedocs.io/en/latest/https://flask-login.readthedocs.io/en/latest/) a very useful extension.
+* HTML/CSS Styling
+ * why not use [flask-bootstrap](http://pythonhosted.org/Flask-Bootstrap/http://pythonhosted.org/Flask-Bootstrap/) which nicely wrapp bootstrap
+* Structure for large application
+ * get a look at [the mega-tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+* Application Programming Interfaces (API)
+ *  a web server that do not render web pages but only retun json data.
+* Rich client applications (Angular, Ember, React...)
+* Unit Testing
+ * you can test as a web client the application.
+* Logging
+ * using the stock ```app.logger```
+* Beyond HTTP: websocket
+ * to allow to have a permanent connection between the client and the server.
+ This allow to have an application more realtime.
+* Deployment
+ * the webserver should not use the python engine. Use NGNX or GUnicor or ??uwhiskey??
+
+# Questions
+* video start @ [3h0m50s](https://www.youtube.com/watch?v=DIcpEg77gdE#t=3h0m50s)
+
+* Blueprints
