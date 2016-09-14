@@ -16,21 +16,19 @@ This the scanner itself.
 # PREREQUESITE
 ## ENV
 ```bash
-export TLSOBS_DIR=/opt/tls-observa```bash
-if [[ ! -d $HTTPOBS_DIR ]]; then mkdir -p $HTTPOBS_DIR; fi
-git clone https://github.com/mozilla/http-observatory $HTTPOBS_DIR
-```
-tory
+export TLSOBS_DIR=/opt/tls-observatory
 export HTTPOBS_DIR=/opt/http-observatory
 export HTTPOBSWEB_DIR=/opt/http-observatory-website
 export CIPHERSCAN_DIR=/opt/cipherscan
 export GOPATH=/opt/gotls
+if [[ ! -d $HTTPOBS_DIR ]]; then mkdir -p $HTTPOBS_DIR; fi
+git clone https://github.com/mozilla/http-observatory $HTTPOBS_DIR
 ```
 
 ## USER
-user create to run the tools
+Create user to run the tools
 ```bash
-* create the httpobs user
+useradd -d $HTTPOBS_DIR -m httpobs
 ```
 
 ## DB
