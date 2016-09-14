@@ -1,7 +1,5 @@
 # INSTALLATION OF "OBSERVATORY BY MOZILLA" ON A DEBIAN JESSIE
-This document describes the steps done to install the "Observatory by Mozilla"
-on a Debian Jessie without docker and provide some information on how the different pieces of
-software are tied together.
+This document describes the steps done to install the "Observatory by Mozilla" on a Debian Jessie without docker and provides some information on how the differents pieces of software are tied together.
 
 # INTRODUCTION
 ## tlsobs-api port 8083 (access: web & db)
