@@ -1,3 +1,8 @@
+# INSTALLATION OF "OBSERVATORY BY MOZILLA" ON A DEBIAN JESSIE
+This document describes the steps done to install the "Observatory by Mozilla"
+on a Debian Jessie without docker and provide some information on how the different pieces of
+software are tied together.
+
 # INTRODUCTION
 ## tlsobs-api port 8083 (access: web & db)
 This is the webservice. It does not scan the host itself. It is only a portal to the database.
@@ -182,7 +187,7 @@ go get github.com/mozilla/tls-observatory/tlsobs-scanner
    {"scan_id":1}
    ```
 
-   * ```curl http://127.0.0.1:8083/api/v1/analyze?scan_id=1```
+   * ```curl http://127.0.0.1:8083/api/v1/results?id=1```
    ```json
     {"id":1,"timestamp":"2016-09-06T12:12:22.141468Z","target":"www.unige.ch",
      "replay":-1,"has_tls":true,"cert_id":411,"trust_id":1,"is_valid":true,
