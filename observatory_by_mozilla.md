@@ -13,49 +13,57 @@ This the scanner itself.
 
 # UNDERSTAND THE API
 ## HTTP OBSERVATORY
-Ask the observatory to analyze www.unige.
+* Ask the observatory to analyze www.unige.
 ```bash
-curl --data "hidden=true"  \
-     https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch
-  # {
-  #   "end_time": null,
-  #   "grade": null,
-  #   "response_headers": null,
-  #   "scan_id": 1654388,
-  #   "score": null,
-  #   "start_time": "Fri, 16 Sep 2016 09:37:10 GMT",
-  #   "state": "PENDING",
-  #   "tests_failed": 0,
-  #   "tests_passed": 0,
-  #   "tests_quantity": 11
-  # }
+curl --data "hidden=true" \
+    https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.chhttps://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch
+```
+```json
+{
+  "end_time": null,
+  "grade": null,
+  "response_headers": null,
+  "scan_id": 1654388,
+  "score": null,
+  "start_time": "Fri, 16 Sep 2016 09:37:10 GMT",
+  "state": "PENDING",
+  "tests_failed": 0,
+  "tests_passed": 0,
+  "tests_quantity": 11
+}
 ```
 
-You should then poll the same url until you  get a state: FINISHED.
+* You should then poll the same url until you  get a state: FINISHED.
 ```bash
 curl --data "hidden=true"  \
      https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch 2>/dev/null \
      | jq "{ state: .state, id: .scan_id}"
-  # {
-  #   "state": "FINISHED",
-  #   "id": 1654388
-  # }
+```
+```json
+{
+  "state": "FINISHED",
+  "id": 1654388
+}
 ```
 
-Then you get the state : Finished, so let's ask for the result.
+* Then you get the state : Finished, so let's ask for the result.
 ```bash
 curl https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan=1654388 2>/dev/null
-  # {
-  #   "content-security-policy": {
-  #     "expectation": "csp-implemented-with-no-unsafe",
-  #     "name": "content-security-policy",
-  #     "output": {
-  #       "data": null
-  #     },
-  #     "pass": false,
-  #     "result": "csp-not-implemented",
-  #     "score_description": "Content Security Policy (CSP) header not implemented",
-  # …
+```
+```json
+{
+  "content-security-policy": {
+    "expectation": "csp-implemented-with-no-unsafe",
+    "name": "content-security-policy",
+    "output": {
+      "data": null
+    },
+    "pass": false,
+    "result": "csp-not-implemented",
+    "score_description": "Content Security Policy (CSP) header not implemented",
+    "...": "..."
+  }
+}
 ```
 
 ## TLS OBSERVATORY
