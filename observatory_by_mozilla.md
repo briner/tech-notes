@@ -62,24 +62,27 @@ curl https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan=16
 Ask a scan of tls.
 ```bash
 curl --data "target=www.unige.ch&rescan=False" https://tls-observatory.services.mozilla.com/api/v1/scan
-  # {"scan_id":12303804}
+```json
+{"scan_id":12303804}
 ```
 
 Get the result
 ```bash
 curl https://tls-observatory.services.mozilla.com/api/v1/results?id=12303804 | jq .
-  # {
-  #   "id": 12303804,
-  #   "timestamp": "2016-09-16T13:08:33.343469Z",
-  #   "target": "www.unige.ch",
-  #   "replay": -1,
-  #   "has_tls": true,
-  #   "cert_id": 1705122,
-  #   "trust_id": 2999591,
-  #   "is_valid": true,
-  #   "completion_perc": 100,
-  #   "connection_info": {
-  # …
+```
+```json
+{
+  "id": 12303804,
+  "timestamp": "2016-09-16T13:08:33.343469Z",
+  "target": "www.unige.ch",
+  "replay": -1,
+  "has_tls": true,
+  "cert_id": 1705122,
+  "trust_id": 2999591,
+  "is_valid": true,
+  "completion_perc": 100,
+   "..." : "...",
+}
 ```
 
 # CIPHERSCAN
@@ -175,36 +178,8 @@ git clone https://github.com/mozilla/cipherscan $CIPHERSCAN_DIR
 * test it
 ```bash
 cipherscan www.google.com
-# .......................
-# Target: www.google.com:443
-#
-# prio  ciphersuite                      protocols              pfs                 curves
-# 1     ECDHE-RSA-CHACHA20-POLY1305-OLD  TLSv1.2                ECDH,P-256,256bits  prime256v1
-# 2     ECDHE-RSA-AES128-GCM-SHA256      TLSv1.2                ECDH,P-256,256bits  prime256v1
-# 3     ECDHE-RSA-AES128-SHA             TLSv1,TLSv1.1,TLSv1.2  ECDH,P-256,256bits  prime256v1
-# 4     AES128-GCM-SHA256                TLSv1.2                None                None
-# 5     AES128-SHA                       TLSv1,TLSv1.1,TLSv1.2  None                None
-# 6     AES128-SHA256                    TLSv1.2                None                None
-# 7     DES-CBC3-SHA                     TLSv1,TLSv1.1,TLSv1.2  None                None
-# 8     ECDHE-RSA-AES256-GCM-SHA384      TLSv1.2                ECDH,P-256,256bits  prime256v1
-# 9     ECDHE-RSA-AES128-SHA256          TLSv1.2                ECDH,P-256,256bits  prime256v1
-# 10    ECDHE-RSA-AES256-SHA             TLSv1,TLSv1.1,TLSv1.2  ECDH,P-256,256bits  prime256v1
-# 11    ECDHE-RSA-AES256-SHA384          TLSv1.2                ECDH,P-256,256bits  prime256v1
-# 12    AES256-GCM-SHA384                TLSv1.2                None                None
-# 13    AES256-SHA                       TLSv1,TLSv1.1,TLSv1.2  None                None
-# 14    AES256-SHA256                    TLSv1.2                None                None
-#
-# Certificate: trusted, 2048 bits, sha256WithRSAEncryption signature
-# TLS ticket lifetime hint: 100800
-# OCSP stapling: not supported
-# Cipher ordering: server
-# Curves ordering: server - fallback: no
-# Server supports secure renegotiation
-# Server supported compression methods: NONE
-# TLS Tolerance: yes
 ```
-
-
+it will shows the same result as shown before in UNDERSTANDING THE API::CIPHERSCAN
 
 # tls-observatory
 ## backport
