@@ -70,6 +70,7 @@ curl https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan=16
 Ask a scan of tls.
 ```bash
 curl --data "target=www.unige.ch&rescan=False" https://tls-observatory.services.mozilla.com/api/v1/scan
+```
 ```json
 {"scan_id":12303804}
 ```
