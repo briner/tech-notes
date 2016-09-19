@@ -1,9 +1,12 @@
 #!/bin/bash
 
 host=$1
-max_test=10
-TLS_BASE_URL=${TLS_BASE_URL:-https://tls-observatory.services.mozilla.com}
-HTTP_BASE_URL=${HTTP_BASE_URL:-https://http-observatory.security.mozilla.org}
+max_test=30
+
+TLS_BASE_URL_DEFAULT="https://tls-observatory.services.mozilla.com"
+HTTP_BASE_URL_DEFAULT="https://http-observatory.security.mozilla.org"
+
+
 
 ################################################################################
 # C B R   LIB
@@ -64,7 +67,8 @@ function http()
     scan_id=$(curl --data "hidden=true" ${HTTP_BASE_URL}/api/v1/analyze?host=${host} 2>/dev/null | jq .scan_id)
     pg "    success: scan_id is ${scan_id}"
     #
-    pb "  get scan result (head 10)"
+    pb "  get scan result (head 10) with the cmd:"
+    pb "    curl ${HTTP_BASE_URL}/api/v1/getScanResults?scan=${scan_id}"
     curl ${HTTP_BASE_URL}/api/v1/getScanResults?scan=${scan_id} 2>/dev/null | tab 4 | head -10
 }
 
@@ -73,10 +77,10 @@ function tls()
     host=$1
     pb "test tls"
     pb "  ask scan"
-    scan_id=$(curl --data "target=www.tsr.ch&rescan=False" ${TLS_BASE_URL}/api/v1/scan 2>/dev/null | jq .scan_id)
+    scan_id=$(curl --data "target=${host}&rescan=False" ${TLS_BASE_URL}/api/v1/scan 2>/dev/null | jq .scan_id)
     pb "    scan_id is ${scan_id}"
     #
-    pb "  get the result (max 10s to get a result)"
+    pb "  get the result (max 10s to get a result) with the cmd:"
     i=1
     completion_perc=0
     while (( $i < $max_test )); do
@@ -92,8 +96,26 @@ function tls()
         pb "    Exit, the test http"
         return
     fi
+    pb "    curl ${TLS_BASE_URL}/api/v1/results?id=${scan_id}"
     curl ${TLS_BASE_URL}/api/v1/results?id=${scan_id} 2>/dev/null | jq . | tab 4 | head -10
 }
+
+if [ -z "$TLS_BASE_URL" -o -z "$HTTP_BASE_URL" ] ; then
+    pb "Info:"
+fi
+if [[ -z $TLS_BASE_URL ]]; then
+    pr "  TLS_BASE_URL not defined, let's use the DEFAULT: ${TLS_BASE_URL_DEFAULT}"
+fi
+if [[ -z $HTTP_BASE_URL ]]; then
+    pr "  HTTP_BASE_URL not defined, let's use the DEFAULT: ${HTTP_BASE_URL_DEFAULT}"
+fi
+if [ -z "$TLS_BASE_URL" -o -z "$HTTP_BASE_URL" ] ; then
+    pb "   Normally when api are not proxied, the mozzila_observatory_test.bash should be executed with:"
+    pb "   TLS_BASE_URL=http://127.0.0.1:8083 HTTP_BASE_URL=http://127.0.0.1:57001 ./mozilla_observatory_test.bash <host_to_test>"
+fi
+
+TLS_BASE_URL=${TLS_BASE_URL:-${TLS_BASE_URL_DEFAULT}}
+HTTP_BASE_URL=${HTTP_BASE_URL:-${HTTP_BASE_URL_DEFAULT}}
 
 pb "API used"
 pb " - HTTP : ${HTTP_BASE_URL}"
