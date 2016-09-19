@@ -16,7 +16,7 @@ This the scanner itself.
 * Ask the observatory to analyze www.unige.
 ```bash
 curl --data "hidden=true" \
-    https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.chhttps://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch
+    https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch
 ```
 ```json
 {
@@ -484,50 +484,56 @@ chown httpobs: /var/{run,log}/httpobs
   su - httpobs -s /bin/bash
   source /opt/http-observatory/venv/bin/activate
   cd /opt/http-observatory
-  HTTPOBS_DATABASE_USER="httpobsapi" HTTPOBS_DATABASE_PASS="api_apss" \
+  HTTPOBS_DATABASE_USER="httpobsapi" HTTPOBS_DATABASE_PASS="api_pass" \
+    uwsgi --http :57001 --wsgi-file httpobs/website/main.py --processes 8 --callable app --master
   ```
   * 3rd
    * ask for an analyze with
-   * as a side note, you can test this two commands on the mozilla website
+   * as we've done in the "UNDERSTAND the API", let's use this new instance of the api.
+    * ask the analyze
    ```bash
-   curl --data "hidden=true"  https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch
-  # {
-  #   "end_time": null,
-  #   "grade": null,
-  #   "response_headers": null,
-  #   "scan_id": 1654388,
-  #   "score": null,
-  #   "start_time": "Fri, 16 Sep 2016 09:37:10 GMT",
-  #   "state": "PENDING",
-  #   "tests_failed": 0,
-  #   "tests_passed": 0,
-  #   "tests_quantity": 11
-  # }
-
-  # and poll this same curl command until you get a state FINISHED
-  # you can use jq (bin/jq Jsoq Query) to easily extract data
-  curl --data "hidden=true"  https://http-observatory.security.mozilla.org/api/v1/analyze?host=www.unige.ch 2>/dev/null | jq "{ state: .state, id: .scan_id}"
-    # {
-    #   "state": "FINISHED",
-    #   "id": 1654388
-    # }
-  # Then you can get the result of the scan
-  curl https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan=1654388 2>/dev/null | head
-  # {
-  #   "content-security-policy": {
-  #     "expectation": "csp-implemented-with-no-unsafe",
-  #     "name": "content-security-policy",
-  #     "output": {
-  #       "data": null
-  #     },
-  #     "pass": false,
-  #     "result": "csp-not-implemented",
-  #     "score_description": "Content Security Policy (CSP) header not implemented",
+   curl --data "hidden=true"  https://localhost:57001/api/v1/analyze?host=www.unige.ch
+ ```
+ ```json
+{
+    "end_time": null,
+   "grade": null,
+   "response_headers": null,
+   "scan_id": 1654388,
+   "score": null,
+   "start_time": "Fri, 16 Sep 2016 09:37:10 GMT",
+   "state": "PENDING",
+   "tests_failed": 0,
+   "tests_passed": 0,
+   "tests_quantity": 11
+}
 ```
-
-
-
-
-
-
-  * web browser on http-observatory.example.com
+   * poll until you get the status=FINISHED
+   ```bash
+  curl --data "hidden=true"  https://localhost:57001/api/v1/analyze?host=www.unige.ch 2>/dev/null | jq "{ state: .state, id: .scan_id}"
+  ```
+  ```json
+  {
+   "state": "FINISHED",
+   "id": 1654388
+  }
+  ```
+  * get the result
+  ```bash
+  curl https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan=1654388 2>/dev/null | head
+  ```
+  ```json
+  {
+   "content-security-policy": {
+     "expectation": "csp-implemented-with-no-unsafe",
+     "name": "content-security-policy",
+     "output": {
+       "data": null
+     },
+     "pass": false,
+     "result": "csp-not-implemented",
+     "score_description": "Content Security Policy (CSP) header not implemented",
+     }
+   "...":"..."
+   }
+   ```
