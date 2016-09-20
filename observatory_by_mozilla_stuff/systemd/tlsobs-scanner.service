@@ -1,0 +1,11 @@
+[Unit]
+Description=TLS Observatory API
+After=network.target auditd.service
+PartOf=postgresql.service
+
+[Service]
+ExecStart=/opt/gotls/bin/tlsobs-scanner
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

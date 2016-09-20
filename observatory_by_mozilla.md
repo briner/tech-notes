@@ -1,7 +1,8 @@
+This document describes the steps done to install the "Observatory by Mozilla" on a Debian Jessie without docker and provides some information on how the differents pieces of software are tied together.
+
 Table of Contents
 =================
 
-  * [INSTALLATION OF "OBSERVATORY BY MOZILLA" ON A DEBIAN JESSIE](#installation-of-observatory-by-mozilla-on-a-debian-jessie)
   * [INTRODUCTION](#introduction)
     * [tlsobs-api port 8083 (access: web &amp; db)](#tlsobs-api-port-8083-access-web--db)
     * [tlsobs-scanner (access: db &amp; host to be scanned)](#tlsobs-scanner-access-db--host-to-be-scanned)
@@ -9,24 +10,25 @@ Table of Contents
   * [UNDERSTAND THE API](#understandtheapi)
     * [HTTP OBSERVATORY](#http-observatory)
     * [TLS OBSERVATORY](#tls-observatory)
-  * [CIPHERSCAN](#cipherscan)
-  * [PREREQUESITE](#prerequesite)
+    * [CIPHERSCAN ()](#cipherscan-)
+  * [PREREQUESITE TO THE INSTALL](#prerequesite-totheinstall)
     * [ENV](#env)
     * [USER](#user)
     * [DB](#db)
     * [python](#python)
     * [BACKPORT](#backport)
-  * [CIPHERSCAN](#cipherscan-1)
-  * [tls-observatory](#tls-observatory-1)
+  * [INSTALL CIPHERSCAN](#installcipherscan)
+  * [INSTALL TLS-OBSERVATORY](#installtls-observatory)
     * [backport](#backport-1)
     * [stuff about the config](#stuff-about-the-config)
     * [database postgres](#database-postgres)
-  * [http-observatory-website](#http-observatory-website)
-  * [http-observatory](#http-observatory-1)
+  * [INSTALL HTTP-OBSERVATORY-WEBSITE](#install-http-observatory-website)
+  * [INSTALL HTTP-OBSERVATORY](#installhttp-observatory)
+  * [GOODIES](#goodies)
+    * [use systemd](#use-systemd)
+    * [mozilla_observatory_test.bash](#mozilla_observatory_testbash)
 
-
-# INSTALLATION OF "OBSERVATORY BY MOZILLA" ON A DEBIAN JESSIE
-This document describes the steps done to install the "Observatory by Mozilla" on a Debian Jessie without docker and provides some information on how the differents pieces of software are tied together.
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 # INTRODUCTION
 ## tlsobs-api port 8083 (access: web & db)
@@ -121,7 +123,7 @@ curl https://tls-observatory.services.mozilla.com/api/v1/results?id=12303804 | j
 }
 ```
 
-# CIPHERSCAN
+## CIPHERSCAN ()
 test it
 ```bash
 cipherscan www.google.com
@@ -155,8 +157,7 @@ cipherscan www.google.com
 ```
 
 
-
-# PREREQUESITE
+# PREREQUESITE TO THE INSTALL
 ## ENV
 ```bash
 export TLSOBS_DIR=/opt/tls-observatory
@@ -206,7 +207,7 @@ apt update
 apt -t jessie-backports install golang-go
 ```
 
-# CIPHERSCAN
+# INSTALL CIPHERSCAN
 * install it
 ```bash
 git clone https://github.com/mozilla/cipherscan $CIPHERSCAN_DIR
@@ -217,7 +218,7 @@ cipherscan www.google.com
 ```
 it will shows the same result as shown before in UNDERSTANDING THE API::CIPHERSCAN
 
-# tls-observatory
+# INSTALL TLS-OBSERVATORY
 ## backport
 Debian Jessie ships a golang-go not working with tls-observatory. Let's add
 the debian backport and install the new version of golang-go
@@ -308,7 +309,7 @@ go get github.com/mozilla/tls-observatory/tlsobs-scanner
      "...":"..."}
     ```
 
-# http-observatory-website
+# INSTALL HTTP-OBSERVATORY-WEBSITE
 * clone it
 ```bash
 if [[ ! -d $HTTPOBSWEB_DIR ]]; then mkdir -p $HTTPOBSWEB_DIR; fi
@@ -417,7 +418,12 @@ make publish
 ```
 
 
-# http-observatory
+# INSTALL HTTP-OBSERVATORY
+* clone it
+```bash
+if [[ ! -d $HTTPOBS_DIR ]]; then mkdir -p $HTTPOBS_DIR; fi
+git clone https://github.com/mozilla/http-observatory $HTTPOBS_DIR
+```
 * create a /etc/http-observatory and create the password
 ```bash
 if [[ ! -d  /etc/http-observatory ]]; then mkdir -p /etc/http-observatory; fi
@@ -426,13 +432,16 @@ echo "httpobscanner $(makepasswd --chars=20)" >> /etc/http-observatory/cesame
 chmod 600 /etc/http-observatory/cesame
 ```
 
-* clone it
-```bash
-if [[ ! -d $HTTPOBS_DIR ]]; then mkdir -p $HTTPOBS_DIR; fi
-git clone https://github.com/mozilla/http-observatory $HTTPOBS_DIR
-```
-* venv
+* httpobs.conf
+ * copy httpobs to /etc
+ ```bash
+ cp $HTTPOBS_DIR/httpobs/conf/httpobs.conf /etc/httpobs.conf
+ ```
+ * modify in ```/etc/httpobs.conf```, section ```database```
+  * ```user = httpobsscanner```
+  * ```pass = secret_password_of_scanner_written_in_etc_http-observatory/cesame```
 
+* venv
 ```bash
 cd $HTTPOBS_DIR
 python3 -mvenv venv
@@ -564,3 +573,50 @@ chown httpobs: /var/{run,log}/httpobs
    "...":"..."
    }
    ```
+
+
+
+# GOODIES
+## use systemd
+If you want to go in production, I've put the [services created](https://github.com/briner/tech-notes/tree/master/observatory_by_mozilla_stuff/systemd).
+## mozilla_observatory_test.bash
+This [script](https://github.com/briner/tech-notes/blob/master/observatory_by_mozilla_stuff/mozilla_observatory_test.bash) will allow you to test the api in a convenient way.
+* usage
+```bash
+TLS_BASE_URL=http://127.0.0.1:8083 HTTP_BASE_URL=http://127.0.0.1:57001 /root/mozilla_observatory_test.bash lecourrier.ch
+```
+```
+API used
+ - HTTP : http://127.0.0.1:57001
+ - TLS : http://127.0.0.1:8083
+test http
+  ask analyze (max 10s to get a result)
+    success: scan_id is 55
+  get scan result (head 10) with the cmd:
+    curl http://127.0.0.1:57001/api/v1/getScanResults?scan=55
+    {
+      "content-security-policy": {
+        "expectation": "csp-implemented-with-no-unsafe",
+        "name": "content-security-policy",
+        "output": {
+          "data": null
+        },
+        "pass": false,
+        "result": "csp-not-implemented",
+        "score_description": "Content Security Policy (CSP) header not implemented",
+test tls
+  ask scan
+    scan_id is 57
+  get the result (max 10s to get a result) with the cmd:
+    curl http://127.0.0.1:8083/api/v1/results?id=57
+    {
+      "id": 57,
+      "timestamp": "2016-09-20T08:43:09.616936Z",
+      "target": "lecourrier.ch",
+      "replay": -1,
+      "has_tls": false,
+      "cert_id": -1,
+      "trust_id": -1,
+      "is_valid": false,
+      "completion_perc": 100,
+```

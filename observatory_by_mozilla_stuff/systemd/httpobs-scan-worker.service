@@ -1,0 +1,14 @@
+[Unit]
+Description=HTTP Observatory scan worker
+After=network.target auditd.service
+Requires=httpobs-scan-worker-celery.service
+
+[Service]
+WorkingDirectory=/opt/http-observatory
+ExecStart=/opt/http-observatory/venv/bin/python /opt/http-observatory/httpobs/scanner/main.py
+Restart=on-failure
+User=httpobs
+Group=httpobs
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+[Unit]
+Description=CELERY for HTTP Observatory scan worker
+After=network.target auditd.service
+After=redis-server.service
+Before=httpobs-scan-worker.service
+Requires=redis-server.service
+
+[Service]
+WorkingDirectory=/opt/http-observatory
+RuntimeDirectory=httpobs
+ExecStart=/opt/http-observatory/venv/bin/celery -A httpobs.scanner.tasks \
+                                                --broker= \
+                                                --autoscale=128,4 \
+                                                --hostname=scanner@%%h \
+                                                --loglevel=info \
+                                                --maxtasksperchild=1024 \
+                                                --pidfile=/run/httpobs/scanner.pid \
+                                                worker
+#--logfile=/var/log/httpobs/scanner.log \
+
+Restart=on-failure
+User=httpobs
+Group=httpobs
+
+[Install]
+WantedBy=multi-user.target

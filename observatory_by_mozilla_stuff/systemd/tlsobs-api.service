@@ -1,0 +1,12 @@
+[Unit]
+Description=TLS Observatory API
+After=network.target auditd.service
+Wants=postgresql.service
+# Wants or maybe require
+
+[Service]
+ExecStart=/opt/gotls/bin/tlsobs-api -debug
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
