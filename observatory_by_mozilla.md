@@ -1,3 +1,30 @@
+Table of Contents
+=================
+
+  * [INSTALLATION OF "OBSERVATORY BY MOZILLA" ON A DEBIAN JESSIE](#installation-of-observatory-by-mozilla-on-a-debian-jessie)
+  * [INTRODUCTION](#introduction)
+    * [tlsobs-api port 8083 (access: web &amp; db)](#tlsobs-api-port-8083-access-web--db)
+    * [tlsobs-scanner (access: db &amp; host to be scanned)](#tlsobs-scanner-access-db--host-to-be-scanned)
+    * [cipherscan (needed by tlsobs-scan)](#cipherscan-needed-by-tlsobs-scan)
+  * [UNDERSTAND THE API](#understandtheapi)
+    * [HTTP OBSERVATORY](#http-observatory)
+    * [TLS OBSERVATORY](#tls-observatory)
+  * [CIPHERSCAN](#cipherscan)
+  * [PREREQUESITE](#prerequesite)
+    * [ENV](#env)
+    * [USER](#user)
+    * [DB](#db)
+    * [python](#python)
+    * [BACKPORT](#backport)
+  * [CIPHERSCAN](#cipherscan-1)
+  * [tls-observatory](#tls-observatory-1)
+    * [backport](#backport-1)
+    * [stuff about the config](#stuff-about-the-config)
+    * [database postgres](#database-postgres)
+  * [http-observatory-website](#http-observatory-website)
+  * [http-observatory](#http-observatory-1)
+
+
 # INSTALLATION OF "OBSERVATORY BY MOZILLA" ON A DEBIAN JESSIE
 This document describes the steps done to install the "Observatory by Mozilla" on a Debian Jessie without docker and provides some information on how the differents pieces of software are tied together.
 
