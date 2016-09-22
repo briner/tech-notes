@@ -3,6 +3,7 @@ This document describes the steps done to install the "Observatory by Mozilla"
 Table of Contents
 =================
 
+  * [Table of Contents](#table-of-contents)
   * [INTRODUCTION](#introduction)
     * [tlsobs-api port 8083 (access: web &amp; db)](#tlsobs-api-port-8083-access-web--db)
     * [tlsobs-scanner (access: db &amp; host to be scanned)](#tlsobs-scanner-access-db--host-to-be-scanned)
@@ -25,6 +26,7 @@ Table of Contents
   * [INSTALL HTTP-OBSERVATORY-WEBSITE](#install-http-observatory-website)
   * [INSTALL HTTP-OBSERVATORY](#installhttp-observatory)
   * [GOODIES](#goodies)
+    * [use ini files for uwsgi](#use-ini-files-for-uwsgi)
     * [use systemd](#use-systemd)
     * [mozilla_observatory_test.bash](#mozilla_observatory_testbash)
 
