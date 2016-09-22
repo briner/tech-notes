@@ -4,8 +4,7 @@ After=network.target auditd.service
 
 [Service]
 WorkingDirectory=/opt/http-observatory
-Environment=HTTPOBS_DATABASE_USER=httpobsapi HTTPOBS_DATABASE_PASS=secret
-ExecStart=/opt/http-observatory/venv/bin/uwsgi --http :57001 --wsgi-file httpobs/website/main.py --processes 8 --callable app --master
+ExecStart=/opt/http-observatory/venv/bin/uwsgi --ini /etc/httpobs-api.ini
 Restart=on-failure
 User=httpobs
 Group=httpobs

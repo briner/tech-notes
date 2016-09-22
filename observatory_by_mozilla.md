@@ -577,6 +577,9 @@ chown httpobs: /var/{run,log}/httpobs
 
 
 # GOODIES
+## use ini files for uwsgi
+httpobs-api has a [bug](https://github.com/mozilla/http-observatory/issues/131) that prevents you to set the password inside ```/etc/httobs.conf```. So
+instead to have these environment set in systemd or in the init script, we can set it in the config file of uwsgi : [httpobs-api.ini](https://github.com/briner/tech-notes/blob/master/observatory_by_mozilla_stuff/systemd/httpobs-api.ini)
 ## use systemd
 If you want to go in production, I've put the [services created](https://github.com/briner/tech-notes/tree/master/observatory_by_mozilla_stuff/systemd).
 ## mozilla_observatory_test.bash
