@@ -548,7 +548,7 @@ chown httpobs: /var/{run,log}/httpobs
 ```
    * poll until you get the status=FINISHED
    ```bash
-  curl --data "hidden=true"  https://localhost:57001/api/v1/analyze?host=www.unige.ch 2>/dev/null | jq "{ state: .state, id: .scan_id}"
+  curl --data "hidden=true" http://localhost:57001/api/v1/analyze?host=www.unige.ch 2>/dev/null | jq "{ state: .state, id: .scan_id}"
   ```
   ```json
   {
@@ -558,7 +558,7 @@ chown httpobs: /var/{run,log}/httpobs
   ```
   * get the result
   ```bash
-  curl https://http-observatory.security.mozilla.org/api/v1/getScanResults?scan=1654388 2>/dev/null | head
+  curl http://localhost:57001/api/v1/getScanResults?scan=1654388 2>/dev/null | head
   ```
   ```json
   {
