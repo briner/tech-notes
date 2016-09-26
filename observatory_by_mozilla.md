@@ -530,7 +530,7 @@ chown httpobs: /var/{run,log}/httpobs
    * as we've done in the "UNDERSTAND the API", let's use this new instance of the api.
     * ask the analyze
    ```bash
-   curl --data "hidden=true"  https://localhost:57001/api/v1/analyze?host=www.unige.ch
+   curl --data "hidden=true"  http://localhost:57001/api/v1/analyze?host=www.unige.ch
  ```
  ```json
 {
