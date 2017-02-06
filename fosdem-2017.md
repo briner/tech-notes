@@ -62,7 +62,7 @@ It rocks solid, very well organized, the people are welcomed. Thanks.
 Now as some companies does (brussels airlines), you get the ability to
 have your electronic boarding pass only 24 hours before the flight. What
 about giving a way for people to print their boarding pass. It could be
-sad to miss you plan because of a broken or no battery phone.
+sad to miss your plane because of a broken or no battery phone.
 
 ## Shuttle
 That is a very good idea to offer such commodity. But the transportation
@@ -70,13 +70,13 @@ page mixes informations. What about splitting it into:
 - going to fosdem
 - leaving fosdem
 
-Also, it miss why the shuttle are for ! What about saying: 
-__Free shuttle buses__: for people leaving by train or by plane
+It misses why the shuttle are for ! What about saying:
+__Free shuttle buses__: for people leaving fosdem by train or by plane
 
 Say that there is a train every 20 minutes from the train station to the
-airport with 20 minutes of transportation.
+airport with 20 minutes of transportation. So that people can better estimate the time they have to get their plan or train in time.
 
-Plus, the map does not show where the shuttle bus are. 
+Plus, the map does not show where the shuttle bus station is.
 
 ## get notified when video
 when someone has bookmarked a video, it could be a good idea to notify
@@ -88,4 +88,6 @@ about going to it
 
 ## application:
 As we do not have data connection outside of fosdem. It could be a good
-idea to provide the information on transportation in the application
+idea to provide the information on transportation in the application.
+
+And also, tell people they can pay the ticket inside the bus. Not more than 5€. 
