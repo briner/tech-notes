@@ -17,10 +17,9 @@ Table of Contents
     * [USER](#user)
     * [DB](#db)
     * [python](#python)
-    * [BACKPORT](#backport)
+    * [Go](#Go)
   * [INSTALL CIPHERSCAN](#installcipherscan)
   * [INSTALL TLS-OBSERVATORY](#installtls-observatory)
-    * [backport](#backport-1)
     * [stuff about the config](#stuff-about-the-config)
     * [database postgres](#database-postgres)
   * [INSTALL HTTP-OBSERVATORY-WEBSITE](#install-http-observatory-website)
@@ -200,13 +199,12 @@ apt install postgresql-server-dev-9.4 python3-dev
 ```
 
 
-## BACKPORT
-The *GO* language must not be at version 1.3. Which is the default version of
-Debian:Jessie. To have a newer version we install it from backport
+## Go
+The *GO* language must be at version 1.7+. We should probably install from source following the instructions provided [here](https://golang.org/doc/install)
+
 ```bash
-echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backport.list
-apt update
-apt -t jessie-backports install golang-go
+go version
+go version go1.7.1 linux/amd64
 ```
 
 # INSTALL CIPHERSCAN
@@ -221,16 +219,6 @@ cipherscan www.google.com
 it will shows the same result as shown before in UNDERSTANDING THE API::CIPHERSCAN
 
 # INSTALL TLS-OBSERVATORY
-## backport
-Debian Jessie ships a golang-go not working with tls-observatory. Let's add
-the debian backport and install the new version of golang-go
-
-```bash
-echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backport.list
-apt -t jessie-backports install golang-go
-go version
-  # go version go1.6.2 linux/amd64
-```
 
 ## stuff about the config
 * clone it
